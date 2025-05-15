@@ -98,7 +98,7 @@ content = html.Div(
     ),
     style=CONTENT_STYLE
 )
-
+server=app.server
 app.layout = html.Div([sidebar, content])
 
 @app.callback(
