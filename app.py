@@ -64,6 +64,28 @@ fig.update_coloraxes(showscale=False)
 
 app = dash.Dash(external_stylesheets=[dbc.themes.BOOTSTRAP])
 
+# Prevent responsive scaling on mobile (fixed width layout)
+app.index_string = '''
+<!DOCTYPE html>
+<html>
+    <head>
+        {%metas%}
+        <title>{%title%}</title>
+        {%favicon%}
+        {%css%}
+        <meta name="viewport" content="width=1024">
+    </head>
+    <body>
+        {%app_entry%}
+        <footer>
+            {%config%}
+            {%scripts%}
+            {%renderer%}
+        </footer>
+    </body>
+</html>
+'''
+
 SIDEBAR_STYLE = {
     "position": "fixed",
     "top": 0,
@@ -83,7 +105,7 @@ CONTENT_STYLE = {
 
 sidebar = html.Div(
     [
-        html.H2("Foundation System Configuration and Performance Parameters", style={"fontSize": "1.3rem", "fontWeight": "bold"}),
+        html.H2("Foundation System Configuration and Performance\u00a0Parameters", style={"fontSize": "1.3rem", "fontWeight": "bold"}),
         html.Hr(),
         html.Div(id="marker-info", children="Click a marker to see details.", className="lead"),
     ],
@@ -164,7 +186,7 @@ def display_marker_info(clickData):
         field("Basement Floors"),
         field("Foundation Level"),
 
-        html.Hr(), html.H5("Instrumentation Monitoring and Piled Raft Load Transfer Behavior", style={"fontSize": "1rem", "fontWeight": "bold", "marginTop": "1rem"}),
+        html.Hr(), html.H5("Instrumentation Monitoring and Piled Raft Load Transfer\u00a0Behavior", style={"fontSize": "1rem", "fontWeight": "bold", "marginTop": "1rem"}),
         field("Earth Pressure Cells"),
         field("Piezometers"),
         field("Extensometers"),
