@@ -91,14 +91,18 @@ SIDEBAR_STYLE = {
     "top": 0,
     "left": 0,
     "bottom": 0,
-    "width": "18rem",
+    "width": "20rem",
     "padding": "2rem 1rem",
     "background-color": "#f8f9fa",
     "overflowY": "auto"
 }
 
 CONTENT_STYLE = {
-    "margin-left": "18rem",
+    "top": 0,
+    "right": 0,
+    "bottom": 0,  # or remove it if you don't want full-height stretching
+    #"width": "34rem",
+    "margin-left": "20rem",
     "margin-right": "2rem",
     "padding": "2rem 1rem",
 }
