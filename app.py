@@ -59,14 +59,14 @@ SECTIONS = [
         "Construction Firm", "Total load (MN)", "Latitude", "Longitude"
     ]),
     ("Foundation Geometry and Pile Characteristics", [
-        "Foundation area (m2)", "Raft thickness", "Pile Length (m)",
+        "Foundation area (m2)", "Raft thickness (m)", "Pile Length (m)",
         "Pile diameter (m)", "Pile numbers (n)", "Pile Spacing",
         "Instrumented Piles", "Pile Load (MN)"
     ]),
     ("Structural Response and Subsurface Conditions", [
-        "Max Settlement (mm)", "Eccentricity (e)", "H/B",
+        "Max Settlement (mm)", "Eccentricity e (m)", "H/B",
         "Buoyancy Force (MN)", "Floors Above Grade", "Basement Floors",
-        "Foundation Level"
+        "Foundation Level (m)"
     ]),
     ("Instrumentation Monitoring and Piled Raft Load Transfer Behavior", [
         "Earth Pressure Cells", "Piezometers", "Extensometers",
