@@ -4,14 +4,13 @@ from dash import Input, Output, dcc, html
 import plotly.express as px
 import pandas as pd
 
-# Load and index data for fast lookup
+# Load and clean data
 df = pd.read_excel("Updated_CPRF_structure_data.xlsx")
 df.columns = df.columns.str.strip()
-df.set_index(["Latitude", "Longitude"], inplace=True)
 
 # Create Scattergeo map figure
 fig = px.scatter_geo(
-    df.reset_index(),
+    df,
     lat="Latitude",
     lon="Longitude",
     hover_name="Structures",
@@ -94,12 +93,10 @@ app.layout = html.Div([sidebar, content])
 
 # Helper to render label/value lines
 def make_paragraph(label, value, bold=True):
-    if not value:
-        return None
     children = []
     if bold:
         children.append(html.Span(f"{label}: ", style={"fontWeight": "bold"}))
-    children.append(html.Span(value))
+    children.append(html.Span(value if value else "N/A"))
     return html.P(children, style={"fontSize": "0.85rem"})
 
 @app.callback(
@@ -112,25 +109,27 @@ def display_marker_info(clickData):
 
     lat = clickData['points'][0]['lat']
     lon = clickData['points'][0]['lon']
-    try:
-        r = df.loc[(lat, lon)].fillna("")
-    except KeyError:
+
+    match = df[(df['Latitude'] == lat) & (df['Longitude'] == lon)]
+    if match.empty:
         return "No data found for this point."
+    r = match.iloc[0].fillna("")
 
     # Build detail sections
     children = []
     for title, fields in SECTIONS:
         children.append(html.H5(title, style={"fontSize": "1rem", "fontWeight": "bold", "marginTop": "1rem"}))
-        # Image if first section and has image name
         if title == SECTIONS[0][0] and r.get("image name", ""):
             children.append(html.Img(
                 src=f"assets/{r['image name']}",
                 style={"width": "100%", "marginBottom": "1rem"}
             ))
         for f in fields:
-            para = make_paragraph(f, str(r.get(f, "")), bold=(title != "References"))
-            if para:
-                children.append(para)
+            value = str(r.get(f, ""))
+            if title == "References" and not value.strip():
+                continue
+            para = make_paragraph(f, value, bold=(title != "References"))
+            children.append(para)
         children.append(html.Hr())
 
     return html.Div(children)
